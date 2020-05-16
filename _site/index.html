@@ -76,6 +76,8 @@
     id = id.replace(".png","");
     id = id.replace(".jpg","");
     id = id.replace(".jpeg","");
+
+    id = id + '-' + Math.random();
     return id;
   }
 
@@ -150,6 +152,11 @@
     console.log("removing:"+removeId);
     document.getElementById(removeId).remove();
     save();
+  }
+
+  function clear(){
+    Cookies.expire('image_store');
+    location.href = 'https://kinlane.github.io/social-alphabet/';
   }
 
   function changewidth(){
@@ -269,6 +276,9 @@
     <td>
       <input type="text" id="width" width="15" value="150" style="padding:3px; text-align: center;">
       <input type="button" name="change width" value="change width" onclick="changewidth();">
+    </td>
+    <td>
+      <input type="button" name="clear" value="clear" onclick="clear();">
     </td>
   </tr>
 </table>
