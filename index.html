@@ -41,7 +41,10 @@ layout: default
     id = id.replace(".jpg","");
     id = id.replace(".jpeg","");
 
-    id = id + '-' + Math.random();
+    var unique = Math.random();
+    var unique = Math.round(unique);
+
+    id = id + '-' + unique;
     return id;
   }
 
