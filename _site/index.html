@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <head>
+  <title>Landscapes</title>
+<style>
+  body {
+    padding: 0px;
+    margin: 0px;
+  }
+
+.container {
+  height: 600px;
+  width: 1200px;
+  border: 1px solid #FFF;
+  margin: 0px;
+  padding: 0px;
+}
+.draggable {
+  width: 150px;
+  height: 150px;
+  float: left;
+}
+.draggable.is-pointer-down {
+  z-index: 2; /* above other draggies */
+}
+.draggable.is-dragging { opacity: 0.7; }
+
+</style>
+<script src="https://kinlane-productions.s3.amazonaws.com/js/cookies.js"></script>
+</head>
+
+
+</head>
+<body>
+
+  
+
+
+  <script>
+
+  function save(){
+
+    var all = document.getElementById("landscape").children;
+
+    var images = [];
+
+    for (var d=0, max=all.length; d < max; d++) {
+
+     var image_src = '';
+
+     image_src = all[d].innerHTML;
+     image_src_array = image_src.split('"');
+     image_src = image_src_array[1];
+
+     var store = {};
+     store['src'] = image_src;
+     store['top'] = all[d].style.top;
+     store['left'] = all[d].style.left;
+     store['width'] = document.getElementById(all[d].id + '-image').width;
+     images.push(store);
+
+    }
+
+    var images_json = JSON.stringify(images);
+    //console.log(images_json);
+    Cookies.set('image_store',images_json);
+  }
+
+  function getId(src){
+    var id_array = src.split("/");
+    for (var j=0, max=id_array.length; j < max; j++) {
+      id = id_array[j];
+    }
+    id = id.replace(".png","");
+    id = id.replace(".jpg","");
+    id = id.replace(".jpeg","");
+    return id;
+  }
+
+  function addNew(sel){
+
+    var src = sel.value;
+    console.log(src);
+    var width = "100";
+
+    id = getId(src);
+
+    let div = document.createElement('div');
+    div.setAttribute("class", "draggable");
+    div.id = id;
+    div.style.width = width + 'px';
+    div.style.top = '50px';
+    div.style.left = '50px';
+
+    let img = document.createElement('img');
+    img.src = src;
+    img.width = width;
+    img.id = id + '-image';
+
+    div.appendChild(img);
+    document.getElementById('landscape').appendChild(div);
+
+    let $draggables = $('.draggable').draggabilly({
+      // contain to parent element
+      containment: true,
+      grid: [ 20, 20 ]
+    });
+
+    save();
+
+  }
+
+  function buildNew(image){
+
+    var src = image.src;
+    var top = image.top;
+    var left = image.left;
+    var width = image.width;
+
+    id = getId(src);
+
+    //console.log("id:" + id);
+    //console.log("top:" + top);
+    //console.log("left:" + left);
+    //console.log("width:" + width);
+    //console.log("src:" + src);
+
+    let div = document.createElement('div');
+    div.setAttribute("class", "draggable");
+    div.id = id;
+    div.style.width=width;
+    div.style.top=top;
+    div.style.left=left;
+
+    let img = document.createElement('img');
+    img.src = src;
+    img.width = width;
+    img.id = id + '-image';
+
+    div.appendChild(img);
+    //console.log(div);
+    document.getElementById('landscape').appendChild(div);
+
+  }
+
+  function remove(){
+    removeId = document.getElementById('selected').value;
+    console.log("removing:"+removeId);
+    document.getElementById(removeId).remove();
+    save();
+  }
+
+  function changewidth(){
+    widthId = document.getElementById('selected').value;
+    console.log("changing width:"+widthId);
+    document.getElementById(widthId).style.width = document.getElementById('width').value;
+    document.getElementById(widthId + '-image').width = document.getElementById('width').value;
+    document.getElementById(widthId + '-image').style.width = document.getElementById('width').value;
+    save();
+  }
+
+</script>
+
+<center>
+<table style="background-color:#FFF;" cellpadding="10" cellspacing="5">
+  <tr>
+    <td>
+      <select onchange="addNew(this);" style="padding:5px;">
+        <option value="">Select a Letter to Add</option>
+        <option value="images/a-amazon.png">a - Amazon</option>
+        <option value="images/a-amazon-2.png">a - Amazon</option>
+        <option value="images/a-facebook.png">a - Facebook</option>
+        <option value="images/a-instagram.png">a - Instagram</option>
+        <option value="images/a-instagram.png">a - Instagram</option>
+        <option value="images/a-java.png">a - Java</option>
+        <option value="images/a-quora.png">a - Quora</option>
+        <option value="images/a-yahoo.png">a - Yahoo</option>
+        <option value="images/b-dropbox.png">b - Dropbox</option>
+        <option value="images/b-facebook.png">b - Facebook</option>
+        <option value="images/b-youtube.png">b - YouTube</option>
+        <option value="images/c-facebook.png">c - Facebook</option>
+        <option value="images/c-microsoft.png">c - Microsoft</option>
+        <option value="images/d-dropbox.png">d - Dropbox</option>
+        <option value="images/d-linkedin.png">d - LinkedIn</option>
+        <option value="images/e-facebook.png">e - Facebook</option>
+        <option value="images/e-linkedin.png">e - LinkedIn</option>
+        <option value="images/e-pinterest.png">e - Pinterest</option>
+        <option value="images/e-pinterest-2.png">e - Pinterest</option>
+        <option value="images/e-pinterest-3.png">e - Pinterest</option>
+        <option value="images/e-twitter.png">e - Twitter</option>
+        <option value="images/e-vimeo.png">e - Vimeo</option>
+        <option value="images/e-youtube.png">e - YouTube</option>
+        <option value="images/f-facebook.png">f - Facebook</option>
+        <option value="images/f-microsoft.png">f - Microsoft</option>
+        <option value="images/g-google.png">g - Google</option>
+        <option value="images/g-google-2.png">g - Google</option>
+        <option value="images/g-instagram.png">g - Instagram</option>
+        <option value="images/h-yahoo.png">h - Yahoo</option>
+        <option value="images/i-instagram.png">i - Instagram</option>
+        <option value="images/i-linkedin.png">i - LinkedIn</option>
+        <option value="images/i-microsoft.png">i - Microsoft</option>
+        <option value="images/i-pinterest.png">i - Pinterest</option>
+        <option value="images/i-twitter.png">i - Twitter</option>
+        <option value="images/i-vimeo.png">i - Vimeo</option>
+        <option value="images/j-java.png">j - Java</option>
+        <option value="images/k-facebook.png">k - Facebook</option>
+        <option value="images/k-linkedin.png">k - LinkedIn</option>
+        <option value="images/l-google.png">l - Google</option>
+        <option value="images/l-lnkedin.png">l - LinkedIn</option>
+        <option value="images/m-amazon.png">m - Amazon</option>
+        <option value="images/m-instagram.png">m - Instagram</option>
+        <option value="images/m-microsoft.png">m - Microsoft</option>
+        <option value="images/m-vimeo.png">m - Vimeo</option>
+        <option value="images/n-amazon.png">n - Amazon</option>
+        <option value="images/n-instagram.png">n - Instagram</option>
+        <option value="images/n-likedin.png">n - LinkedIn</option>
+        <option value="images/n-pinterest.png">n - Pinterest</option>
+        <option value="images/o-amazon.png">o - Amazon</option>
+        <option value="images/o-dropbox.png">o - Dropbox</option>
+        <option value="images/o-facebook.png">o - Facebook</option>
+        <option value="images/o-facebook-2.png">o - Facebook</option>
+        <option value="images/o-google.png">a - Google</option>
+        <option value="images/o-google-2.png">a - Google</option>
+        <option value="images/o-microsoft.png">o - Microsoft</option>
+        <option value="images/o-microsoft-2.png">o - Microsoft</option>
+        <option value="images/o-quora.png">o - Quora</option>
+        <option value="images/o-vimeo.png">o - Vimeo</option>
+        <option value="images/o-yahoo.png">o - Yahoo</option>
+        <option value="images/o-youtube.png">o - YouTube</option>
+        <option value="images/p-dropbox.png">p - Dropbox</option>
+        <option value="images/p-pinterest.png">p - Pinterest</option>
+        <option value="images/q-quora.png">q - Quora</option>
+        <option value="images/r-dropbox.png">r - Dropbox</option>
+        <option value="images/r-instagram.png">r - Instagram</option>
+        <option value="images/r-microsoft.png">r - Microsoft</option>
+        <option value="images/r-pinterest.png">r - Pinterest</option>
+        <option value="images/r-quora.png">r - Quora</option>
+        <option value="images/r-twitter.png">r - Twitter</option>
+        <option value="images/s-instagram.png">s - Instagram</option>
+        <option value="images/s-instagram.png">s - Instagram</option>
+        <option value="images/s-microsoft.png">s - Microsoft</option>
+        <option value="images/s-pinterest.png">s - Pinterest</option>
+        <option value="images/t-isntagram.png">t - Instagram</option>
+        <option value="images/t-microsoft.png">t - Microsoft</option>
+        <option value="images/t-pinterest.png">t - Pinterest</option>
+        <option value="images/t-pinterest-2.png">t - Pinterest</option>
+        <option value="images/t-twitt4er-3.png">t - Amazon</option>
+        <option value="images/t-twitter.png">t - Twitter</option>
+        <option value="images/t-twitter-2.png">t - Twitter</option>
+        <option value="images/t-youtube.png">t - YouTube</option>
+        <option value="images/u-youtube.png">u - YouTube</option>
+        <option value="images/v-java.png">v - Java</option>
+        <option value="images/v-vimeo.png">v - Vimeo</option>
+        <option value="images/w-twitter.png">w - Twitter</option>
+        <option value="images/x-dropbox.png">x - Dropbox</option>
+        <option value="images/y-yahoo.png">y - Yahoo</option>
+        <option value="images/y-youtube.png">y - YouTube</option>
+        <option value="images/z-amazon.png">z - Amazon</option>
+        <option value="images/exclamation-yahoo.png">! - Yahoo</option>
+
+      </select>
+    </td>
+    <td>
+      <input type="text" id="selected" width="100" style="padding:3px;">
+      <input type="button" name="remove" value="remove" onclick="remove();">
+    </td>
+    <td>
+      <input type="text" id="width" width="15" value="150" style="padding:3px; text-align: center;">
+      <input type="button" name="change width" value="change width" onclick="changewidth();">
+    </td>
+  </tr>
+</table>
+</center>
+
+<div class="container" id="landscape" style="width:100%; border:0px;"></div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="drag.js"></script>
+<script>
+$(document).ready( function() {
+
+  //Cookies.expire('image_store');
+  //Cookies.expire('background');
+
+  if(Cookies.get('image_store')){
+
+    var current = Cookies.get('image_store');
+    console.log(current);
+    var images = JSON.parse(current);
+    console.log(images);
+
+    document.getElementById('landscape').innerHTML = '';
+
+    for (var i=0, max=images.length; i < max; i++) {
+
+      buildNew(images[i]);
+
+    }
+
+    let $draggables = $('.draggable').draggabilly({
+      containment: true,
+      grid: [ 20, 20 ]
+    });
+
+  }
+  else{
+
+    var $draggables = $('.draggable').draggabilly({
+      // contain to parent element
+      containment: true,
+      grid: [ 20, 20 ]
+    });
+
+  }
+
+});
+
+</script>
+
+
+  
+
+</body>
+</html>
