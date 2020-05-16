@@ -121,7 +121,7 @@ layout: default
     save();
   }
 
-  function clear(){
+  function clearall(){
     console.log('clearing');
     Cookies.expire('image_store');
     location.href = 'https://kinlane.github.io/social-alphabet/';
@@ -246,7 +246,7 @@ layout: default
       <input type="button" name="change width" value="change width" onclick="changewidth();">
     </td>
     <td>
-      <input type="button" name="clear" value="clear" onclick="clear();">
+      <input type="button" name="clear" value="clear" onclick="clearall();">
     </td>
   </tr>
 </table>
